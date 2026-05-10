@@ -21,6 +21,37 @@
     title = __('title.status');
   }
   %>
+  <%
+  let pageDescription = page.description || null;
+  if (!pageDescription) {
+    if (is_home()) {
+      pageDescription = config.description;
+    } else if (is_archive()) {
+      if (is_month()) {
+        pageDescription = config.title + '的' + page.year + '年' + page.month + '月文章归档。';
+      } else if (is_year()) {
+        pageDescription = config.title + '的' + page.year + '年文章归档。';
+      } else {
+        pageDescription = config.title + '的全部文章归档。';
+      }
+    } else if (is_category()) {
+      pageDescription = '浏览' + config.title + '「' + page.category + '」分类下的全部文章。';
+    } else if (is_tag()) {
+      pageDescription = '浏览' + config.title + '中标签「' + page.tag + '」下的全部文章。';
+    } else if (page.path === 'categories/index.html') {
+      pageDescription = config.title + '的全部分类目录。';
+    } else if (page.path === 'tags/index.html') {
+      pageDescription = config.title + '的全部标签聚合页面。';
+    } else if (page.path === 'search/index.html') {
+      pageDescription = config.title + '的站内搜索页面。';
+    } else if (page.type === '404') {
+      pageDescription = '页面未找到。';
+    }
+  }
+  if (page.current > 1 && pageDescription) {
+    pageDescription = pageDescription.replace(/。$/, '') + '（第' + page.current + '页）';
+  }
+  %>
   <title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
   <link rel="canonical" href="<%- full_url_for(page.path) %>">
   <meta name="author" content="<%- page.author || config.author  %>" />
@@ -50,7 +81,8 @@
       return theme.image.favicon ? full_url_for(theme.image.favicon) : null;
     })(),
     // twitter_site: theme.contact.twitter ? "@" + theme.contact.twitter : null,
-    title
+    title,
+    description: pageDescription
   }) %>
   <% if (config.feed) { %>
     <%- feed_tag() %>
