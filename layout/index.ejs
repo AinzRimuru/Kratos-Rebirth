@@ -1,3 +1,10 @@
+<% if (is_home()) { %>
+  <h1 class="sr-only"><%= config.title %> - <%= config.subtitle %></h1>
+<% } else if (is_category()) { %>
+  <h1 class="sr-only"><%= __('title.category') %>：<%= page.category %> - <%= config.title %></h1>
+<% } else if (is_tag()) { %>
+  <h1 class="sr-only"><%= __('title.tag') %>：<%= page.tag %> - <%= config.title %></h1>
+<% } %>
 <!-- Breadcrumb for tag & category page -->
 <% if (page.tag || page.category) { %>
     <%- partial('_partial/breadcrumb') %>
