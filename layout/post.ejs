@@ -51,6 +51,40 @@
             <% } %>
             <hr />
             <div itemprop="articleBody"><%- page.content %></div>
+            <% if (page.faqs && page.faqs.length) { %>
+            <section class="kratos-post-faq" id="faq">
+                <style>
+                .kratos-post-faq{margin:2em 0;padding:1.2em 1.4em;border:1px solid var(--border-color,#e0e0e0);border-radius:8px;background:var(--bg-color-overlay,rgba(0,0,0,.015))}
+                .kratos-post-faq h2{margin:.2em 0 .8em;font-size:1.35em;border:none}
+                .kratos-post-faq details{border-top:1px dashed var(--border-color,#e0e0e0);padding:.6em .2em}
+                .kratos-post-faq details:first-of-type{border-top:none}
+                .kratos-post-faq summary{cursor:pointer;font-weight:600;line-height:1.6}
+                .kratos-post-faq summary:hover{color:var(--theme-color,#4a90e2)}
+                .kratos-post-faq .faq-a{padding:.4em .2em .2em;color:var(--text-color,#555);line-height:1.8;overflow:hidden}
+                .kratos-post-faq .faq-a p{margin:.4em 0}
+                </style>
+                <h2><%- __('post_faq.title') %></h2>
+                <% page.faqs.forEach(function(f, i) { %>
+                <details class="faq-item"<%= i === 0 ? ' open' : '' %>>
+                    <summary class="faq-q"><%= f.q %></summary>
+                    <div class="faq-a"><p><%= f.a %></p></div>
+                </details>
+                <% }) %>
+            </section>
+            <script type="application/ld+json">
+            <%- JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": page.faqs.map(function(f) {
+                    return {
+                        "@type": "Question",
+                        "name": f.q,
+                        "acceptedAnswer": { "@type": "Answer", "text": f.a }
+                    };
+                })
+            }) %>
+            </script>
+            <% } %>
         </div>
         <% if (typeof page.show_copyright !== 'undefined' ? page.show_copyright : theme.copyright_notice.in_page.enable_at.includes("post")) { %>
             <div class="kratos-copyright text-center clearfix">

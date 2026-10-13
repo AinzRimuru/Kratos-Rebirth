@@ -43,3 +43,5 @@ search:
     page: 这里是 %s 的搜索引擎~
     keywords: 搜索多个关键词时请用空格分割，例如「%s」这样；
     tags: 您也可以使用这些标签碰碰运气哦~
+post_faq:
+  title: 常见问题
