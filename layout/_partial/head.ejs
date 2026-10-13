@@ -61,11 +61,17 @@
   <meta name="robots" content="index,follow" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
-  <% if (is_post()) { %>
-    <meta name="keywords" content="<%- strip_html(list_tags(page.tags, { show_count: false, style: 'none' })) %>" />
-  <% } else { %>
-    <meta name="keywords" content="<%- config.keywords %>" />
-  <% } %>
+  <%
+  let pageKeywords = config.keywords;
+  if (is_post()) {
+    pageKeywords = strip_html(list_tags(page.tags, { show_count: false, style: 'none' }));
+  }
+  // front-matter 中的 keywords 优先于标签/站点默认值
+  if (page.keywords) {
+    pageKeywords = Array.isArray(page.keywords) ? page.keywords.join(',') : String(page.keywords);
+  }
+  %>
+  <meta name="keywords" content="<%- pageKeywords %>" />
   <%- open_graph({
     image: (function(){
       const cover = page.cover;
@@ -97,6 +103,7 @@
         "@type": "BlogPosting",
         "headline": page.title,
         "description": jsonLdDescription,
+        "keywords": pageKeywords || undefined,
         "image": page.cover ? full_url_for(page.path + page.cover) : (theme.image.avatar ? full_url_for(theme.image.avatar) : ""),
         "author": {
           "@type": "Person",
