@@ -44,9 +44,13 @@ const adFormat = typeof format !== 'undefined' && format !== null && format !== 
     <% if (adLayoutKey) { %>
     data-ad-format="fluid"
     data-ad-layout-key="<%= adLayoutKey %>"
+    <% } else if (adFormat === 'none') { %>
+    <%# 新版控制台纯 ins，不带任何 format 属性 %>
     <% } else { %>
     data-ad-format="<%= adFormat %>"
+    <% if (adFormat === 'auto') { %>
     data-full-width-responsive="true"
+    <% } %>
     <% } %>
     data-ad-client="<%= adClient %>"
     data-ad-slot="<%= adSlot %>"></ins>
