@@ -81,6 +81,7 @@ adsense:
     enable: false
     slot: "" # AdSense 广告单元 ID（数字，在 AdSense 控制台创建后获得）
     layout_key: "" # 新版控制台代码中的 data-ad-layout-key（如 -fb+5w+4e-db+86）；旧式单元留空
+    format: "auto" # auto / horizontal：horizontal 限制为横幅尺寸（高度更矮，适合信息流）
     min_after: 3 # 最早出现在第几篇文章之后（之前的文章之后不放广告）
   post_content: # 文章正文二级标题段落末尾的文章内广告（每次加载随机选择一个段落末尾展示）
     enable: false

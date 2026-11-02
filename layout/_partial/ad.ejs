@@ -22,6 +22,7 @@ const adSlot = typeof slot !== 'undefined' && slot !== null ? String(slot) : '';
 const adLabel = ad.label || '广告';
 const isInArticle = type === 'inarticle';
 const adLayoutKey = typeof layout_key !== 'undefined' && layout_key !== null ? String(layout_key) : '';
+const adFormat = typeof format !== 'undefined' && format !== null && format !== '' ? String(format) : 'auto';
 %>
 <% if (adClient) { %>
 <div class="kr-ad-slot kr-ad-<%= isInArticle ? 'inarticle' : 'index' %>" role="complementary" aria-label="<%= adLabel %>">
@@ -44,7 +45,7 @@ const adLayoutKey = typeof layout_key !== 'undefined' && layout_key !== null ? S
     data-ad-format="fluid"
     data-ad-layout-key="<%= adLayoutKey %>"
     <% } else { %>
-    data-ad-format="auto"
+    data-ad-format="<%= adFormat %>"
     data-full-width-responsive="true"
     <% } %>
     data-ad-client="<%= adClient %>"
