@@ -207,6 +207,9 @@
     .kr-ad-slot .kr-ad-tag{display:block;font-size:.72rem;letter-spacing:.2em;color:var(--kr-theme-text-alt,#999);text-align:center;padding:.45em 0 .1em;user-select:none}
     .kr-ad-slot .kr-ad-tag i{margin-right:.3em;font-size:.72rem}
     .kr-ad-slot .adsbygoogle{max-width:100%}
+    /* 预留最小高度：fluid 广告高度跟随当次素材，矮素材时避免位子塌陷（同时消除布局抖动） */
+    .kr-ad-index .adsbygoogle{min-height:96px}
+    .kr-ad-inarticle .adsbygoogle{min-height:140px}
     .kr-ad-index{margin:1.2em 0}
     .kr-ad-inarticle{margin:2.2em 0}
     /* 本地调试占位框：广告位外的环境以虚线框提示，不请求真实广告 */
