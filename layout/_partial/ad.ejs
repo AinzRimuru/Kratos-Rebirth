@@ -1,0 +1,47 @@
+<%
+/**
+ * Google AdSense 广告位（随机锚点放置版）
+ * 用法：partial('_partial/ad', { slot: '1234567890', type: 'index' })
+ *   type: 'index'     —— 列表/信息流中的自适应展示广告
+ *        'inarticle' —— 文章正文内的文章内广告（与文字混排的纯文本样式）
+ *
+ * 模板需在候选位置预置隐藏锚点 .kr-ad-anchor（见 index.ejs / adsense-inject.js）；
+ * 本 partial 渲染广告元素本身，控制脚本（ad_relocate_script）会在页面
+ * 加载时随机选择一个锚点，把广告移动过去并按域名白名单激活：
+ *   仅当 location.hostname 命中 window.KR_ADSENSE_DOMAINS 白名单
+ *   （由 head.ejs 从 theme.adsense.domains 输出）时才 push 真实广告；
+ *   白名单外的环境（localhost 等）用占位框替换，不产生任何广告请求。
+ *
+ * slot 未填写时：非白名单环境显示「未配置」占位框（方便本地预览布局），
+ *   白名单（生产）环境整个广告位容器在客户端被移除，不产生请求与空框。
+ * 缺 client 时静默跳过，不影响页面。
+ */
+const ad = theme.adsense || {};
+const adClient = ad.client || '';
+const adSlot = typeof slot !== 'undefined' && slot !== null ? String(slot) : '';
+const adLabel = ad.label || '广告';
+const isInArticle = type === 'inarticle';
+%>
+<% if (adClient) { %>
+<div class="kr-ad-slot kr-ad-<%= isInArticle ? 'inarticle' : 'index' %>" role="complementary" aria-label="<%= adLabel %>">
+  <span class="kr-ad-tag"><i class="fa fa-bullhorn" aria-hidden="true"></i><%= adLabel %></span>
+  <% if (adSlot) { %>
+  <% if (isInArticle) { %>
+  <ins class="adsbygoogle" style="display:block;text-align:center;"
+    data-ad-layout="in-article"
+    data-ad-format="fluid"
+    data-ad-client="<%= adClient %>"
+    data-ad-slot="<%= adSlot %>"></ins>
+  <% } else { %>
+  <ins class="adsbygoogle" style="display:block;"
+    data-ad-format="auto"
+    data-full-width-responsive="true"
+    data-ad-client="<%= adClient %>"
+    data-ad-slot="<%= adSlot %>"></ins>
+  <% } %>
+  <% } else { %>
+  <div class="kr-ad-ph">广告占位（未配置广告单元 ID）</div>
+  <% } %>
+  <%- ad_relocate_script(!!adSlot) %>
+</div>
+<% } %>

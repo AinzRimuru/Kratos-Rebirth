@@ -71,6 +71,21 @@ nav:
 index:
   style: "card" # card / half
 
+# Google AdSense 广告位配置
+# 需要在 additional_injections.after_footer 中加载 adsbygoogle.js（本站已配置）
+adsense:
+  client: "" # AdSense 发布商 ID，例如 ca-pub-0000000000000000
+  domains: [] # 生产域名白名单；为空则任何域名都加载真实广告。填入后仅这些域名（含子域）加载真实广告，其余（如 localhost）显示占位框
+  label: "广告" # 广告位上方显示的标签文字（AdSense 政策要求广告可与内容区分）
+  index: # 首页文章列表中部广告（每次加载从 min_after 篇之后的位置中随机选择）
+    enable: false
+    slot: "" # AdSense 广告单元 ID（数字，在 AdSense 控制台创建后获得）
+    min_after: 3 # 最早出现在第几篇文章之后（之前的文章之后不放广告）
+  post_content: # 文章正文二级标题段落末尾的文章内广告（每次加载随机选择一个段落末尾展示）
+    enable: false
+    slot: "" # AdSense 广告单元 ID（建议使用「文章内广告」类型，与正文混排的文字样式）
+    min_length: 800 # 正文渲染后的 HTML 短于该字符数时不插入
+
 # Footer 页脚配置
 footer:
   links: []

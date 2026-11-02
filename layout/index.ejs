@@ -10,22 +10,41 @@
     <%- partial('_partial/breadcrumb') %>
 <% } %>
 
-<% page.posts.each(function(post) { %>
-    <% if (post.show_in) {
-        const postShow = 
-            post.show_in.includes('home') && is_home()
-            || post.show_in.includes('category') && is_category()
-            || post.show_in.includes('tag') && is_tag();
-        if (!postShow) {
-            return false;
+<%
+    // 先按 show_in 规则筛出本页实际展示的文章，便于在列表中部插入广告
+    const visiblePosts = [];
+    page.posts.each(function(post) {
+        if (post.show_in) {
+            const postShow =
+                post.show_in.includes('home') && is_home()
+                || post.show_in.includes('category') && is_category()
+                || post.show_in.includes('tag') && is_tag();
+            if (!postShow) {
+                return false;
+            }
         }
-    } %>
+        visiblePosts.push(post);
+    });
+
+    // 首页文章列表广告：候选位置为第 min_after 篇文章之后的每个位置
+    //（前两篇文章之后不放广告），页面加载时随机选择一个
+    const idxAd = theme.adsense && theme.adsense.client
+        && theme.adsense.index && theme.adsense.index.enable;
+    const idxAdMinAfter = Number(theme.adsense.index && theme.adsense.index.min_after) || 3;
+%>
+<% visiblePosts.forEach(function(post, postIdx) { %>
     <% if (!post.title || post.link) { %>
         <%- partial('_index_style/status', { post: post }) %>
     <% } else { %>
         <%- partial(`_index_style/${theme.index.style}`, { post: post }) %>
     <% } %>
+    <% if (idxAd && postIdx + 1 >= idxAdMinAfter) { %>
+        <div class="kr-ad-anchor" hidden></div>
+    <% } %>
 <% }) %>
+<% if (idxAd && visiblePosts.length >= idxAdMinAfter) { %>
+    <%- partial('_partial/ad', { slot: theme.adsense.index.slot, type: 'index' }) %>
+<% } %>
 
 <% if (page.total > 1) { %>
     <div class='text-center pagination'>

@@ -196,6 +196,25 @@
     <% } %>
   </style>
 
+  <% if (theme.adsense && theme.adsense.client) { %>
+  <!-- AdSense 生产域名白名单：广告相关脚本据此判断是否加载真实广告，本地调试环境显示占位框 -->
+  <script>window.KR_ADSENSE_DOMAINS=<%- JSON.stringify(theme.adsense.domains || []) %>;</script>
+  <% } %>
+  <% if (theme.adsense && theme.adsense.client && ((theme.adsense.index && theme.adsense.index.enable) || (theme.adsense.post_content && theme.adsense.post_content.enable))) { %>
+  <!-- AdSense 广告位样式（与正文内容明显区分） -->
+  <style>
+    .kr-ad-slot{margin:1.6em 0;padding:.2em .6em .6em;border:1px dashed var(--kr-theme-border,#3c495b3a);border-radius:6px;background:var(--kr-theme-info-bg,rgba(128,128,128,.05));overflow:hidden}
+    .kr-ad-slot .kr-ad-tag{display:block;font-size:.72rem;letter-spacing:.2em;color:var(--kr-theme-text-alt,#999);text-align:center;padding:.45em 0 .1em;user-select:none}
+    .kr-ad-slot .kr-ad-tag i{margin-right:.3em;font-size:.72rem}
+    .kr-ad-slot .adsbygoogle{max-width:100%}
+    .kr-ad-index{margin:1.2em 0}
+    .kr-ad-inarticle{margin:2.2em 0}
+    /* 本地调试占位框：广告位外的环境以虚线框提示，不请求真实广告 */
+    .kr-ad-ph{display:flex;align-items:center;justify-content:center;min-height:96px;margin:.35em 0;font-size:.8rem;color:var(--kr-theme-text-alt,#999);border:1px dashed var(--kr-theme-border,#3c495b3a);border-radius:4px;text-align:center;line-height:1.6}
+    .kr-ad-inarticle .kr-ad-ph{min-height:140px}
+  </style>
+  <% } %>
+
   <!-- 额外的追加注入项 -->
   <% if (theme.additional_injections.head) { %>
     <%- theme.additional_injections.head %>
