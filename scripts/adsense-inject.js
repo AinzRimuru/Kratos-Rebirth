@@ -121,7 +121,11 @@ hexo.extend.helper.register("ad_between_h2", function (content) {
     "</span>" +
     (conf.slot
       ? '<ins class="adsbygoogle" style="display:block;text-align:center;"' +
-        ' data-ad-layout="in-article" data-ad-format="fluid"' +
+        (conf.layout_key
+          ? ' data-ad-format="fluid" data-ad-layout-key="' +
+            conf.layout_key +
+            '"'
+          : ' data-ad-layout="in-article" data-ad-format="fluid"') +
         ' data-ad-client="' +
         ads.client +
         '" data-ad-slot="' +

@@ -43,7 +43,7 @@
     <% } %>
 <% }) %>
 <% if (idxAd && visiblePosts.length >= idxAdMinAfter) { %>
-    <%- partial('_partial/ad', { slot: theme.adsense.index.slot, type: 'index' }) %>
+    <%- partial('_partial/ad', { slot: theme.adsense.index.slot, type: 'index', layout_key: theme.adsense.index.layout_key }) %>
 <% } %>
 
 <% if (page.total > 1) { %>

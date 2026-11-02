@@ -21,6 +21,7 @@ const adClient = ad.client || '';
 const adSlot = typeof slot !== 'undefined' && slot !== null ? String(slot) : '';
 const adLabel = ad.label || '广告';
 const isInArticle = type === 'inarticle';
+const adLayoutKey = typeof layout_key !== 'undefined' && layout_key !== null ? String(layout_key) : '';
 %>
 <% if (adClient) { %>
 <div class="kr-ad-slot kr-ad-<%= isInArticle ? 'inarticle' : 'index' %>" role="complementary" aria-label="<%= adLabel %>">
@@ -28,14 +29,24 @@ const isInArticle = type === 'inarticle';
   <% if (adSlot) { %>
   <% if (isInArticle) { %>
   <ins class="adsbygoogle" style="display:block;text-align:center;"
+    <% if (adLayoutKey) { %>
+    data-ad-format="fluid"
+    data-ad-layout-key="<%= adLayoutKey %>"
+    <% } else { %>
     data-ad-layout="in-article"
     data-ad-format="fluid"
+    <% } %>
     data-ad-client="<%= adClient %>"
     data-ad-slot="<%= adSlot %>"></ins>
   <% } else { %>
   <ins class="adsbygoogle" style="display:block;"
+    <% if (adLayoutKey) { %>
+    data-ad-format="fluid"
+    data-ad-layout-key="<%= adLayoutKey %>"
+    <% } else { %>
     data-ad-format="auto"
     data-full-width-responsive="true"
+    <% } %>
     data-ad-client="<%= adClient %>"
     data-ad-slot="<%= adSlot %>"></ins>
   <% } %>
